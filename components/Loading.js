@@ -1,0 +1,49 @@
+import React, { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMainContext } from "../context";
+const Progress = () => {
+  return (
+    <div className="flex items-center w-[300px] sm:w-[500px] h-[1px] bg-white rounded-3xl overflow-hidden mt-5 relative">
+      <div className="w-full h-full overflow-hidden bg-gradient-to-r from-[#28edcf] via-[#FD2145] to-[#FD2155]"></div>
+      <div className="w-full h-full bg-black absolute top-0 right-0 animate-processing"></div>
+    </div>
+  );
+};
+
+function Loading() {
+  const { showLoader, setShowLoader } = useMainContext();
+  useEffect(() => {
+    setTimeout(() => {
+      setShowLoader(false);
+    }, 2000);
+  }, []);
+  return (
+    <AnimatePresence initial={false}>
+      {showLoader && (
+        <motion.div
+          key="key"
+          initial={{ x: 0 }}
+          animate={{ x: 0 }}
+          exit={{
+            x: [0, 1000],
+            transition: {
+              duration: 0.8,
+            },
+          }}
+          className="w-full h-screen flex flex-col lg:flex-row text-white px-[20px] md:px-[50px] py-[30px] bg-background fixed top-0 z-[10000000000]"
+        >
+          <div className="flex flex-col z-100 h-[100vh] bg-background w-full items-center justify-center p-2">
+            <div className="text-[70px] font-bold text-brick text-shadow-behind-after leading-[1] cursor-pointer">
+              H
+            </div>
+            <span className="text-white text-sm font-bold">Himanshu</span>
+            <span className="text-grey text-xs mt-2">Himanshu is thinking</span>
+            <Progress />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+export default Loading;
